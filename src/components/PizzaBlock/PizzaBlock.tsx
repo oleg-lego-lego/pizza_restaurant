@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 type PizzaBlockPropsType = {
     title: string
@@ -6,6 +6,13 @@ type PizzaBlockPropsType = {
 }
 
 export const PizzaBlock = (props: PizzaBlockPropsType) => {
+    let [pizzaCount, setPizzaCount] = useState(0)
+
+    const onClickAddButton = () => {
+        setPizzaCount(++pizzaCount)
+    }
+
+
     return (
         <div className="pizza-block">
             <img
@@ -28,7 +35,7 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от {props.price} ₽</div>
-                <div className="button button--outline button--add">
+                <button onClick={onClickAddButton} className="button button--outline button--add">
                     <svg
                         width="12"
                         height="12"
@@ -42,8 +49,8 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>2</i>
-                </div>
+                    <i>{pizzaCount}</i>
+                </button>
             </div>
         </div>
     );
