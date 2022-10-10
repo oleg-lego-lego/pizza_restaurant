@@ -4,6 +4,7 @@ type PizzaBlockPropsType = {
     title: string
     price: number
     imageUrl: string
+    sizes: number[]
 }
 
 export const PizzaBlock = (props: PizzaBlockPropsType) => {
@@ -28,10 +29,9 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
                     <li>традиционное</li>
                 </ul>
                 <ul>
-                    <li className="active">26 см.
-                    </li>
-                    <li>30 см.</li>
-                    <li>40 см.</li>
+                    {props.sizes.map(el => (
+                        <li className="active">{el} см.</li>
+                    ))}
                 </ul>
             </div>
             <div className="pizza-block__bottom">
