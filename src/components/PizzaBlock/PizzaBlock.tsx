@@ -5,15 +5,19 @@ type PizzaBlockPropsType = {
     price: number
     imageUrl: string
     sizes: number[]
+    types: number[]
 }
 
 export const PizzaBlock = (props: PizzaBlockPropsType) => {
     let [pizzaCount, setPizzaCount] = useState(0)
+    let [activeType, setActiveType] = useState(0)
+    let [activeSize, setActiveSize] = useState(0)
 
     const onClickAddButton = () => {
         setPizzaCount(++pizzaCount)
     }
 
+    const typeNames = ['тонкое', 'традицтонное']
 
     return (
         <div className="pizza-block">
@@ -25,12 +29,15 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
             <h4 className="pizza-block__title">{props.title}</h4>
             <div className="pizza-block__selector">
                 <ul>
-                    <li className="active">тонкое</li>
-                    <li>традиционное</li>
+                    {props.types.map(t => (
+                        <li onClick={() => setActiveType(t)} className={activeType === t ? "active" : ''}>
+                            {typeNames[t]}
+                        </li>
+                    ))}
                 </ul>
                 <ul>
-                    {props.sizes.map(el => (
-                        <li className="active">{el} см.</li>
+                    {props.sizes.map((s, i) => (
+                        <li onClick={() => setActiveSize(i)} className={activeSize === i ? "active" : ''}>{s} см.</li>
                     ))}
                 </ul>
             </div>
