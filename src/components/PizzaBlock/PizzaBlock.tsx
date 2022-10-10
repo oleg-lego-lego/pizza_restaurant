@@ -29,15 +29,23 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
             <h4 className="pizza-block__title">{props.title}</h4>
             <div className="pizza-block__selector">
                 <ul>
-                    {props.types.map(t => (
-                        <li onClick={() => setActiveType(t)} className={activeType === t ? "active" : ''}>
+                    {props.types.map((t,i) => (
+                        <li
+                            key={i}
+                            onClick={() => setActiveType(t)}
+                            className={activeType === t ? "active" : ''}>
                             {typeNames[t]}
                         </li>
                     ))}
                 </ul>
                 <ul>
                     {props.sizes.map((s, i) => (
-                        <li onClick={() => setActiveSize(i)} className={activeSize === i ? "active" : ''}>{s} см.</li>
+                        <li
+                            key={i}
+                            onClick={() => setActiveSize(i)}
+                            className={activeSize === i ? "active" : ''}>
+                            {s} см.
+                        </li>
                     ))}
                 </ul>
             </div>
