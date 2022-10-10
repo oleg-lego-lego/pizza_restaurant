@@ -5,15 +5,21 @@ import {Categories} from "./components/Categories/Categories";
 import {Sort} from "./components/Sort/Sort";
 import {PizzaBlock} from "./components/PizzaBlock/PizzaBlock";
 import {PizzasType} from "./assets/pizzas"
+import {Skeleton} from "./components/PizzaBlock/Skeleton";
 
 
 function App() {
     const [items, setItems] = useState<PizzasType[]>([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         fetch('https://63441c93b9ab4243cadfc069.mockapi.io/items')
             .then(res => res.json())
-            .then(arr => setItems(arr))
+            .then(arr =>  {
+                setItems(arr)
+                setIsLoading(false)
+            })
+
     }, [])
 
     return (
@@ -27,16 +33,19 @@ function App() {
                     </div>
                     <h2 className="content__title">Все пиццы</h2>
                     <div className="content__items">
-                        {items.map((obj, i) => (
-                            <PizzaBlock
-                                key={i}
-                                title={obj.title}
-                                price={obj.price}
-                                imageUrl={obj.imageUrl}
-                                sizes={obj.sizes}
-                                types={obj.types}
-                            />
-                        ))}
+                        {isLoading
+                            ? [...new Array(6)].map((_, i) => <Skeleton key={i}/>)
+                            : items.map((obj, i) => (
+                                    <PizzaBlock
+                                        key={i}
+                                        title={obj.title}
+                                        price={obj.price}
+                                        imageUrl={obj.imageUrl}
+                                        sizes={obj.sizes}
+                                        types={obj.types}
+                                    />
+                                ))
+                        }
                     </div>
                 </div>
             </div>
