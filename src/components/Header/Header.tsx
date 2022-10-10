@@ -1,5 +1,5 @@
 import React from "react";
-import logoSvg from "../../assets/pizza-logo.svg"
+import logoSvg from "../../assets/img/pizza-logo.svg"
 
 export const Header = () => {
     return (
