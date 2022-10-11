@@ -2,9 +2,7 @@ import React from 'react';
 
 export const Cart = () => {
     return (
-        <div>
-            
-        </div>
+        <h1>Корзина</h1>
     );
 };
 
