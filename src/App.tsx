@@ -1,52 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './scss/app.scss';
 import {Header} from "./components/Header/Header";
-import {Categories} from "./components/Categories/Categories";
-import {Sort} from "./components/Sort/Sort";
-import {PizzaBlock} from "./components/PizzaBlock/PizzaBlock";
-import {PizzasType} from "./assets/pizzas"
-import {Skeleton} from "./components/PizzaBlock/Skeleton";
+import {Home} from "./pages/Home";
+import {NotFound} from "./pages/NotFound";
+import {Route, Routes} from "react-router-dom";
 
 
 function App() {
-    const [items, setItems] = useState<PizzasType[]>([])
-    const [isLoading, setIsLoading] = useState(true)
-
-    useEffect(() => {
-        fetch('https://63441c93b9ab4243cadfc069.mockapi.io/items')
-            .then(res => res.json())
-            .then(arr =>  {
-                setItems(arr)
-                setIsLoading(false)
-            })
-
-    }, [])
-
     return (
         <div className="wrapper">
             <Header/>
             <div className="content">
                 <div className="container">
-                    <div className="content__top">
-                        <Categories/>
-                        <Sort/>
-                    </div>
-                    <h2 className="content__title">Все пиццы</h2>
-                    <div className="content__items">
-                        {isLoading
-                            ? [...new Array(6)].map((_, i) => <Skeleton key={i}/>)
-                            : items.map((obj, i) => (
-                                    <PizzaBlock
-                                        key={i}
-                                        title={obj.title}
-                                        price={obj.price}
-                                        imageUrl={obj.imageUrl}
-                                        sizes={obj.sizes}
-                                        types={obj.types}
-                                    />
-                                ))
-                        }
-                    </div>
+                    <Routes>
+                        <Route path={'/'} element={<Home/>}/>
+                        <Route path={'*'} element={<NotFound/>}/>
+                    </Routes>
                 </div>
             </div>
         </div>
