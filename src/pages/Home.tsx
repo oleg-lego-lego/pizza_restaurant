@@ -13,8 +13,13 @@ export const Home = () => {
 
     useEffect(() => {
         setIsLoading(true)
-        fetch('https://63441c93b9ab4243cadfc069.mockapi.io/items?category=' + categoryId)
-        //fetch(`https://63441c93b9ab4243cadfc069.mockapi.io/items?${categoryId > 0 ? `category=${categoryId}` : ''}')
+
+        const sortBy = sortType.sortProperty.replace('-', '')
+        const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
+        // const category = categoryId > 0 ? `category=${categoryId}` : ''
+        // const search = searchValue ? `&search=${searchValue}` : ''
+
+        fetch(`https://63441c93b9ab4243cadfc069.mockapi.io/items?${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sortBy}&order=${order}`)
             .then(res => res.json())
             .then(arr => {
                 setItems(arr)
