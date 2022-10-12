@@ -12,15 +12,15 @@ export const Home = () => {
     useEffect(() => {
         fetch('https://63441c93b9ab4243cadfc069.mockapi.io/items')
             .then(res => res.json())
-            .then(arr =>  {
+            .then(arr => {
                 setItems(arr)
                 setIsLoading(false)
             })
-
+        window.scrollTo(0, 0)
     }, [])
 
     return (
-        <>
+        <div className="container">
             <div className="content__top">
                 <Categories/>
                 <Sort/>
@@ -41,7 +41,7 @@ export const Home = () => {
                     ))
                 }
             </div>
-        </>
+        </div>
     );
 };
 
