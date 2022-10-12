@@ -9,28 +9,34 @@ export const Home = () => {
     const [items, setItems] = useState<PizzasType[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [categoryId, setCategoryId] = useState(0)
-    const [sortType, setSortType] = useState(0)
-
+    const [sortType, setSortType] = useState({name: 'популярности', sortProperty: 'rating'})
 
     useEffect(() => {
         setIsLoading(true)
         fetch('https://63441c93b9ab4243cadfc069.mockapi.io/items?category=' + categoryId)
+        //fetch(`https://63441c93b9ab4243cadfc069.mockapi.io/items?${categoryId > 0 ? `category=${categoryId}` : ''}')
             .then(res => res.json())
             .then(arr => {
                 setItems(arr)
                 setIsLoading(false)
             })
         window.scrollTo(0, 0)
-    }, [categoryId])
+    }, [categoryId, sortType])
 
     return (
         <div className="container">
             <div className="content__top">
+
                 <Categories
                     categoryId={categoryId}
                     onClickCategory={(id) => setCategoryId(id)}
                 />
-                <Sort/>
+
+                <Sort
+                    sortType={sortType}
+                    setSortType={(id) => setSortType(id)}
+                />
+
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
