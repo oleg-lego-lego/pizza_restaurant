@@ -1,12 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 
-export const Categories = () => {
+type CategoriesPropsType = {
+    categoryId: number
+    onClickCategory: (activeButton: number) => void
+}
+
+export const Categories = (props: CategoriesPropsType) => {
     const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
-    const [activeIndex, setActiveIndex] = useState(0)
-
-    const onClickCategory = (activeButton: number) => {
-        setActiveIndex(activeButton)
-    }
 
     return (
         <div className="categories">
@@ -14,8 +14,8 @@ export const Categories = () => {
                 {categories.map((el, i) => (
                     <li
                         key={i}
-                        onClick={() => onClickCategory(i)}
-                        className={activeIndex === i ? "active" : ''}>
+                        onClick={() => props.onClickCategory(i)}
+                        className={props.categoryId === i ? "active" : ''}>
                         {el}
                     </li>
                 ))}

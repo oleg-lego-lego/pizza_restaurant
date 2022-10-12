@@ -8,21 +8,28 @@ import {PizzasType} from "../assets/pizzas";
 export const Home = () => {
     const [items, setItems] = useState<PizzasType[]>([])
     const [isLoading, setIsLoading] = useState(true)
+    const [categoryId, setCategoryId] = useState(0)
+    const [sortType, setSortType] = useState(0)
+
 
     useEffect(() => {
-        fetch('https://63441c93b9ab4243cadfc069.mockapi.io/items')
+        setIsLoading(true)
+        fetch('https://63441c93b9ab4243cadfc069.mockapi.io/items?category=' + categoryId)
             .then(res => res.json())
             .then(arr => {
                 setItems(arr)
                 setIsLoading(false)
             })
         window.scrollTo(0, 0)
-    }, [])
+    }, [categoryId])
 
     return (
         <div className="container">
             <div className="content__top">
-                <Categories/>
+                <Categories
+                    categoryId={categoryId}
+                    onClickCategory={(id) => setCategoryId(id)}
+                />
                 <Sort/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
