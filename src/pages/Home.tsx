@@ -5,7 +5,11 @@ import {Skeleton} from "../components/PizzaBlock/Skeleton";
 import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
 import {PizzasType} from "../assets/pizzas";
 
-export const Home = () => {
+type HomePropsType = {
+    searchValue: string
+}
+
+export const Home = (props :HomePropsType) => {
     const [items, setItems] = useState<PizzasType[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [categoryId, setCategoryId] = useState(0)
