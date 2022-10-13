@@ -5,12 +5,13 @@ import {Skeleton} from "../components/PizzaBlock/Skeleton";
 import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
 import {PizzasType} from "../assets/pizzas";
 import {Pagination} from "../components/Pagination/Pagination";
+import {AppContext} from "../components/Context/AppContext";
 
-type HomePropsType = {
-    searchValue: string
-}
+type HomePropsType = {}
 
 export const Home = (props: HomePropsType) => {
+    const {searchValue} = React.useContext(AppContext)
+
     const [items, setItems] = useState<PizzasType[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [categoryId, setCategoryId] = useState(0)
@@ -24,7 +25,7 @@ export const Home = (props: HomePropsType) => {
         const sortBy = sortType.sortProperty.replace('-', '')
         const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
         const category = categoryId > 0 ? `category=${categoryId}` : ''
-        const search = props.searchValue ? `&search=${props.searchValue}` : ''
+        const search = searchValue ? `&search=${searchValue}` : ''
 
         fetch(`https://63441c93b9ab4243cadfc069.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
             .then(res => res.json())
@@ -33,7 +34,7 @@ export const Home = (props: HomePropsType) => {
                 setIsLoading(false)
             })
         window.scrollTo(0, 0)
-    }, [categoryId, sortType, props.searchValue, currentPage])
+    }, [categoryId, sortType, searchValue, currentPage])
 
     const pizzas = items
         //.filter(val => val.title.toLowerCase().includes(props.searchValue.toLowerCase()))

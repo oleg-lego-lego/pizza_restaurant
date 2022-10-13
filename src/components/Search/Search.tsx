@@ -1,12 +1,15 @@
 import React from 'react';
 import s from './Search.module.scss'
+import {AppContext} from "../Context/AppContext";
 
-type SearchPropsType = {
-    searchValue: string
-    setSearchValue: (s: string) => void
-}
+
+
+
+type SearchPropsType = {}
 
 export const Search = (props: SearchPropsType) => {
+    const {searchValue, setSearchValue} = React.useContext(AppContext)
+
     return (
         <div className={s.root}>
             <svg className={s.icon} enable-background="new 0 0 32 32" id="Glyph" version="1.1" viewBox="0 0 32 32"
@@ -16,14 +19,14 @@ export const Search = (props: SearchPropsType) => {
                     id="XMLID_223_"/>
             </svg>
             <input
-                onChange={(e) => props.setSearchValue(e.currentTarget.value)}
+                onChange={(e) => setSearchValue && setSearchValue(e.currentTarget.value)}
                 className={s.input}
-                value={props.searchValue}
+                value={searchValue}
                 placeholder={'поиск пиццы...'}
             />
 
-            {props.searchValue && (
-                <svg onClick={() => props.setSearchValue('')} className={s.clearIcon} height="14px" version="1.1" viewBox="0 0 14 14" width="14px" xmlns="http://www.w3.org/2000/svg">
+            {searchValue && (
+                <svg onClick={() => setSearchValue && setSearchValue('')} className={s.clearIcon} height="14px" version="1.1" viewBox="0 0 14 14" width="14px" xmlns="http://www.w3.org/2000/svg">
                     <title/>
                     <desc/>
                     <defs/>

@@ -3,10 +3,7 @@ import logoSvg from "../../assets/img/pizza-logo.svg"
 import {Link} from "react-router-dom";
 import {Search} from "../Search/Search";
 
-type HeaderPropsType = {
-    searchValue: string
-    setSearchValue: (s: string) => void
-}
+type HeaderPropsType = {}
 
 export const Header = (props: HeaderPropsType) => {
     return (
@@ -21,7 +18,9 @@ export const Header = (props: HeaderPropsType) => {
                         </div>
                     </div>
                 </Link>
-                <Search searchValue={props.searchValue} setSearchValue={props.setSearchValue}/>
+
+                <Search />
+
                 <div className="header__cart">
                     <Link to="/cart" className="button button--cart">
                         <span>520 ₽</span>
