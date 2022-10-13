@@ -20,20 +20,20 @@ export const Home = (props: HomePropsType) => {
 
         const sortBy = sortType.sortProperty.replace('-', '')
         const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
-        // const category = categoryId > 0 ? `category=${categoryId}` : ''
-        // const search = searchValue ? `&search=${searchValue}` : ''
+        const category = categoryId > 0 ? `category=${categoryId}` : ''
+        const search = props.searchValue ? `&search=${props.searchValue}` : ''
 
-        fetch(`https://63441c93b9ab4243cadfc069.mockapi.io/items?${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sortBy}&order=${order}`)
+        fetch(`https://63441c93b9ab4243cadfc069.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`)
             .then(res => res.json())
             .then(arr => {
                 setItems(arr)
                 setIsLoading(false)
             })
         window.scrollTo(0, 0)
-    }, [categoryId, sortType])
+    }, [categoryId, sortType, props.searchValue])
 
     const pizzas = items
-        .filter(val => val.title.toLowerCase().includes(props.searchValue.toLowerCase()))
+        //.filter(val => val.title.toLowerCase().includes(props.searchValue.toLowerCase()))
         .map((obj, i) => (
             <PizzaBlock
                 key={i}
