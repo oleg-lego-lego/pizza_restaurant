@@ -9,7 +9,7 @@ type HomePropsType = {
     searchValue: string
 }
 
-export const Home = (props :HomePropsType) => {
+export const Home = (props: HomePropsType) => {
     const [items, setItems] = useState<PizzasType[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [categoryId, setCategoryId] = useState(0)
@@ -32,6 +32,21 @@ export const Home = (props :HomePropsType) => {
         window.scrollTo(0, 0)
     }, [categoryId, sortType])
 
+    const pizzas = items
+        .filter(val => val.title.toLowerCase().includes(props.searchValue.toLowerCase()))
+        .map((obj, i) => (
+            <PizzaBlock
+                key={i}
+                title={obj.title}
+                price={obj.price}
+                imageUrl={obj.imageUrl}
+                sizes={obj.sizes}
+                types={obj.types}
+            />
+        ))
+
+    const skeletons = [...new Array(6)].map((_, i) => <Skeleton key={i}/>)
+
     return (
         <div className="container">
             <div className="content__top">
@@ -49,19 +64,7 @@ export const Home = (props :HomePropsType) => {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                {isLoading
-                    ? [...new Array(6)].map((_, i) => <Skeleton key={i}/>)
-                    : items.map((obj, i) => (
-                        <PizzaBlock
-                            key={i}
-                            title={obj.title}
-                            price={obj.price}
-                            imageUrl={obj.imageUrl}
-                            sizes={obj.sizes}
-                            types={obj.types}
-                        />
-                    ))
-                }
+                {isLoading ? skeletons : pizzas}
             </div>
         </div>
     );
