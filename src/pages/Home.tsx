@@ -6,18 +6,29 @@ import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
 import {PizzasType} from "../assets/pizzas";
 import {Pagination} from "../components/Pagination/Pagination";
 import {AppContext} from "../components/Context/AppContext";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../redux/store";
+import { setCategoryId} from '../redux/slices/filterSlice'
+
 
 type HomePropsType = {}
 
 export const Home = (props: HomePropsType) => {
+    const categoryId = useSelector((state: RootState) => state.filter.categoryId)
+    const dispatch = useDispatch()
+
     const {searchValue} = React.useContext(AppContext)
 
     const [items, setItems] = useState<PizzasType[]>([])
     const [isLoading, setIsLoading] = useState(true)
-    const [categoryId, setCategoryId] = useState(0)
+    // const [categoryId, setCategoryId] = useState(0)
     const [sortType, setSortType] = useState({name: 'популярности', sortProperty: 'rating'})
     const [currentPage, setCurrentPage] = useState(1)
 
+
+    const onChangeCategory = (id: number) => {
+        dispatch(setCategoryId(id))
+    }
 
     useEffect(() => {
         setIsLoading(true)
@@ -57,7 +68,7 @@ export const Home = (props: HomePropsType) => {
 
                 <Categories
                     categoryId={categoryId}
-                    onClickCategory={(id) => setCategoryId(id)}
+                    onClickCategory={(id) => onChangeCategory(id)}
                 />
 
                 <Sort

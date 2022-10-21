@@ -6,7 +6,6 @@ export interface CounterStateType {
     sort: { name: string, sortProperty: string }
 }
 
-
 const initialState: CounterStateType = {
     categoryId: 0,
     sort: {name: 'популярности', sortProperty: 'rating'}
