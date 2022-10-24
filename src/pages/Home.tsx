@@ -14,15 +14,18 @@ import { setCategoryId} from '../redux/slices/filterSlice'
 type HomePropsType = {}
 
 export const Home = (props: HomePropsType) => {
-    const categoryId = useSelector((state: RootState) => state.filter.categoryId)
     const dispatch = useDispatch()
+    const categoryId = useSelector((state: RootState) => state.filter.categoryId)
+    const sortType = useSelector((state: RootState) => state.filter.sort.sortProperty)
+
+
 
     const {searchValue} = React.useContext(AppContext)
 
     const [items, setItems] = useState<PizzasType[]>([])
     const [isLoading, setIsLoading] = useState(true)
     // const [categoryId, setCategoryId] = useState(0)
-    const [sortType, setSortType] = useState({name: 'популярности', sortProperty: 'rating'})
+    //const [sortType, setSortType] = useState({name: 'популярности', sortProperty: 'rating'})
     const [currentPage, setCurrentPage] = useState(1)
 
 
@@ -33,8 +36,8 @@ export const Home = (props: HomePropsType) => {
     useEffect(() => {
         setIsLoading(true)
 
-        const sortBy = sortType.sortProperty.replace('-', '')
-        const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
+        const sortBy = sortType.replace('-', '')
+        const order = sortType.includes('-') ? 'asc' : 'desc'
         const category = categoryId > 0 ? `category=${categoryId}` : ''
         const search = searchValue ? `&search=${searchValue}` : ''
 
