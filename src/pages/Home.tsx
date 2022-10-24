@@ -9,19 +9,17 @@ import {Pagination} from "../components/Pagination/Pagination";
 import {AppContext} from "../components/Context/AppContext";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../redux/store";
-import {setCategoryId} from '../redux/slices/filterSlice'
+import {setCategoryId, setCurrentPage} from '../redux/slices/filterSlice'
 
 
 export const Home = () => {
     const dispatch = useDispatch()
-    const {categoryId, sort} = useSelector((state: RootState) => state.filter)
+    const {categoryId, sort, currentPage} = useSelector((state: RootState) => state.filter)
 
     const {searchValue} = React.useContext(AppContext)
 
     const [items, setItems] = useState<PizzasType[]>([])
     const [isLoading, setIsLoading] = useState(true)
-    const [currentPage, setCurrentPage] = useState(1)
-
 
     const onChangeCategory = (id: number) => {
         dispatch(setCategoryId(id))
@@ -59,6 +57,10 @@ export const Home = () => {
 
     const skeletons = [...new Array(6)].map((_, i) => <Skeleton key={i}/>)
 
+    const onChangePage = (num: number) => {
+        dispatch(setCurrentPage(num))
+    }
+
     return (
         <div className="container">
             <div className="content__top">
@@ -75,7 +77,7 @@ export const Home = () => {
                 {isLoading ? skeletons : pizzas}
             </div>
 
-            <Pagination currentPage={currentPage} onChangePage={(n) => setCurrentPage(n)}/>
+            <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
         </div>
     );
 };

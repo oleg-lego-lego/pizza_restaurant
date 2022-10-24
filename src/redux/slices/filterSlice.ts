@@ -1,12 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-export interface CounterStateType {
+export interface initialStateType {
     categoryId: number,
+    currentPage: number,
     sort: { name: string, sortProperty: string }
 }
 
-const initialState: CounterStateType = {
+const initialState: initialStateType = {
     categoryId: 0,
+    currentPage: 1,
     sort: {name: 'популярности', sortProperty: 'rating'}
 }
 
@@ -19,11 +21,14 @@ const filterSlice = createSlice({
         },
         setSort(state, action) {
             state.sort = action.payload
+        },
+        setCurrentPage(state, action) {
+            state.currentPage = action.payload
         }
     }
 })
 
-export const {setCategoryId, setSort} = filterSlice.actions
+export const {setCategoryId, setSort, setCurrentPage} = filterSlice.actions
 
 export default filterSlice.reducer;
 
