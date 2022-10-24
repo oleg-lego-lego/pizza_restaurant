@@ -1,4 +1,6 @@
 import React, {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
 
 type SortType = {
     name: string
@@ -10,7 +12,10 @@ type SortPropsType = {
     setSortType: (selectedId: SortType) => void
 }
 
-export const Sort = (props: SortPropsType) => {
+export const Sort = () => {
+    const dispatch = useDispatch()
+    const sort = useSelector((state: RootState) => state.filter.sort)
+
     const [open, setOpen] = useState(false)
 
     //const list = ['популярности', 'цене', 'алфавиту']
@@ -24,7 +29,7 @@ export const Sort = (props: SortPropsType) => {
     ]
 
     const onClickListItem = (selectedId: any) => { //fixed any
-        props.setSortType(selectedId)
+        // props.setSortType(selectedId)
         setOpen(false)
     }
 
@@ -46,7 +51,7 @@ export const Sort = (props: SortPropsType) => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setOpen(!open)}>{props.sortType.name}</span>
+                <span onClick={() => setOpen(!open)}>{sort.name}</span>
             </div>
             {open && (
                 <div className="sort__popup">
@@ -55,7 +60,7 @@ export const Sort = (props: SortPropsType) => {
                             <li
                                 key={i}
                                 onClick={() => onClickListItem(obj)}
-                                className={props.sortType.sortProperty === obj.sortProperty ? "active" : ''}>
+                                className={sort.sortProperty === obj.sortProperty ? "active" : ''}>
                                 {obj.name}
                             </li>
                         ))}

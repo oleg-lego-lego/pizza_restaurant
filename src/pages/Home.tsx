@@ -71,10 +71,7 @@ export const Home = (props: HomePropsType) => {
                     onClickCategory={(id) => onChangeCategory(id)}
                 />
 
-                <Sort
-                    sortType={sortType}
-                    setSortType={(id) => setSortType(id)}
-                />
+                <Sort/>
 
             </div>
             <h2 className="content__title">Все пиццы</h2>
