@@ -8,24 +8,18 @@ import {Pagination} from "../components/Pagination/Pagination";
 import {AppContext} from "../components/Context/AppContext";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../redux/store";
-import { setCategoryId} from '../redux/slices/filterSlice'
+import {setCategoryId} from '../redux/slices/filterSlice'
 
 
-type HomePropsType = {}
 
-export const Home = (props: HomePropsType) => {
+export const Home = () => {
     const dispatch = useDispatch()
-    const categoryId = useSelector((state: RootState) => state.filter.categoryId)
-    const sortType = useSelector((state: RootState) => state.filter.sort.sortProperty)
-
-
+    const {categoryId, sort} = useSelector((state: RootState) => state.filter)
 
     const {searchValue} = React.useContext(AppContext)
 
     const [items, setItems] = useState<PizzasType[]>([])
     const [isLoading, setIsLoading] = useState(true)
-    // const [categoryId, setCategoryId] = useState(0)
-    //const [sortType, setSortType] = useState({name: 'популярности', sortProperty: 'rating'})
     const [currentPage, setCurrentPage] = useState(1)
 
 
@@ -36,8 +30,8 @@ export const Home = (props: HomePropsType) => {
     useEffect(() => {
         setIsLoading(true)
 
-        const sortBy = sortType.replace('-', '')
-        const order = sortType.includes('-') ? 'asc' : 'desc'
+        const sortBy = sort.sortProperty.replace('-', '')
+        const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
         const category = categoryId > 0 ? `category=${categoryId}` : ''
         const search = searchValue ? `&search=${searchValue}` : ''
 
@@ -48,7 +42,7 @@ export const Home = (props: HomePropsType) => {
                 setIsLoading(false)
             })
         window.scrollTo(0, 0)
-    }, [categoryId, sortType, searchValue, currentPage])
+    }, [categoryId, sort.sortProperty, searchValue, currentPage])
 
     const pizzas = items
         //.filter(val => val.title.toLowerCase().includes(props.searchValue.toLowerCase()))

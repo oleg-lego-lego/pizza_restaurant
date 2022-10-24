@@ -14,11 +14,6 @@ function App() {
 
     return (
         <div className="wrapper">
-
-
-
-
-
             <AppContext.Provider value={{searchValue, setSearchValue}}>
                 <Header/>
                 <div className="content">

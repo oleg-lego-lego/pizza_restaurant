@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit'
-import type {PayloadAction} from '@reduxjs/toolkit'
 
 export interface CounterStateType {
     categoryId: number,
@@ -15,34 +14,18 @@ const filterSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
-        setCategoryId(state: any, action: any) {
+        setCategoryId(state, action) {
             state.categoryId = action.payload
+        },
+        setSort(state, action) {
+            state.sort = action.payload
         }
     }
 })
 
-export const {setCategoryId} = filterSlice.actions
+export const {setCategoryId, setSort} = filterSlice.actions
 
 export default filterSlice.reducer;
 
-//
-// export const counterSlice = createSlice({
-//     name: 'counter',
-//     initialState,
-//     reducers: {
-//         increment: (state) => {
-//             state.value += 1
-//         },
-//         decrement: (state) => {
-//             state.value -= 1
-//         },
-//         incrementByAmount: (state, action: PayloadAction<number>) => {
-//             state.value += action.payload
-//         },
-//     },
-// })
-//
-// export const { increment, decrement, incrementByAmount } = counterSlice.actions
-//
-// export default counterSlice.reducer
+
 
