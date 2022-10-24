@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import axios from "axios";
 import {Categories} from "../components/Categories/Categories";
 import {Sort} from "../components/Sort/Sort";
 import {Skeleton} from "../components/PizzaBlock/Skeleton";
@@ -9,7 +10,6 @@ import {AppContext} from "../components/Context/AppContext";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../redux/store";
 import {setCategoryId} from '../redux/slices/filterSlice'
-
 
 
 export const Home = () => {
@@ -35,12 +35,12 @@ export const Home = () => {
         const category = categoryId > 0 ? `category=${categoryId}` : ''
         const search = searchValue ? `&search=${searchValue}` : ''
 
-        fetch(`https://63441c93b9ab4243cadfc069.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
-            .then(res => res.json())
-            .then(arr => {
-                setItems(arr)
+        axios.get(`https://63441c93b9ab4243cadfc069.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
+            .then(res => {
+                setItems(res.data)
                 setIsLoading(false)
             })
+
         window.scrollTo(0, 0)
     }, [categoryId, sort.sortProperty, searchValue, currentPage])
 
@@ -62,7 +62,6 @@ export const Home = () => {
     return (
         <div className="container">
             <div className="content__top">
-
                 <Categories
                     categoryId={categoryId}
                     onClickCategory={(id) => onChangeCategory(id)}
@@ -76,7 +75,7 @@ export const Home = () => {
                 {isLoading ? skeletons : pizzas}
             </div>
 
-            <Pagination currentPage={currentPage} onChangePage={(n) =>setCurrentPage(n)}/>
+            <Pagination currentPage={currentPage} onChangePage={(n) => setCurrentPage(n)}/>
         </div>
     );
 };
