@@ -8,7 +8,7 @@ type SortType = {
     sortProperty: string
 }
 
-const list = [
+export const list = [
     {name: 'популярности (desc)', sortProperty: 'rating'},
     {name: 'популярности (asc)', sortProperty: '-rating'},
     {name: 'цене (desc)', sortProperty: 'price'},
