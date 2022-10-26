@@ -2,10 +2,13 @@ import React from "react";
 import logoSvg from "../../assets/img/pizza-logo.svg"
 import {Link} from "react-router-dom";
 import {Search} from "../Search/Search";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
 
-type HeaderPropsType = {}
 
-export const Header = (props: HeaderPropsType) => {
+export const Header = () => {
+    const {items, totalPrice} = useSelector((state: RootState) => state.cart)
+
     return (
         <div className="header">
             <div className="container">
@@ -19,11 +22,11 @@ export const Header = (props: HeaderPropsType) => {
                     </div>
                 </Link>
 
-                <Search />
+                <Search/>
 
                 <div className="header__cart">
                     <Link to="/cart" className="button button--cart">
-                        <span>520 ₽</span>
+                        <span>{totalPrice} ₽</span>
                         <div className="button__delimiter"></div>
                         <svg
                             width="18"
@@ -54,7 +57,7 @@ export const Header = (props: HeaderPropsType) => {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                        <span>3</span>
+                        <span>{items.length}</span>
                     </Link>
                 </div>
             </div>
