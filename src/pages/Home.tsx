@@ -43,11 +43,11 @@ export const Home = () => {
             const res = await axios
                 .get(`https://63441c93b9ab4243cadfc069.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
             setItems(res.data)
-            setIsLoading(false)
         } catch (e) {
-            setIsLoading(false)
             alert('Ощибка при получении пицц')
             console.log('ERROR', e)
+        } finally {
+            setIsLoading(false)
         }
     }
 
