@@ -81,6 +81,7 @@ export const Home = () => {
         //.filter(val => val.title.toLowerCase().includes(props.searchValue.toLowerCase()))
         .map((obj, i) => (
             <PizzaBlock
+                id={obj.id}
                 key={i}
                 title={obj.title}
                 price={obj.price}

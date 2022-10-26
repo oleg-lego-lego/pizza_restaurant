@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import {eventWrapper} from "@testing-library/user-event/dist/utils";
+import {useDispatch} from "react-redux";
+import {addItem} from '../../redux/slices/cartSlice'
 
 type PizzaBlockPropsType = {
+    id: number
     title: string
     price: number
     imageUrl: string
@@ -10,12 +12,22 @@ type PizzaBlockPropsType = {
 }
 
 export const PizzaBlock = (props: PizzaBlockPropsType) => {
+    const dispatch = useDispatch()
+
     let [pizzaCount, setPizzaCount] = useState(0)
     let [activeType, setActiveType] = useState(0)
     let [activeSize, setActiveSize] = useState(0)
 
-    const onClickAddButton = () => {
-        setPizzaCount(++pizzaCount)
+    const onClickAdd = () => {
+        const item = {
+            id: props.id,
+            title: props.title,
+            price: props.price,
+            imageUrl: props.imageUrl,
+            types: activeType,
+            sizes: activeSize,
+        }
+        dispatch(addItem(item))
     }
 
     const typeNames = ['тонкое', 'традицтонное']
@@ -31,7 +43,7 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
                 <h4 className="pizza-block__title">{props.title}</h4>
                 <div className="pizza-block__selector">
                     <ul>
-                        {props.types.map((t,i) => (
+                        {props.types.map((t, i) => (
                             <li
                                 key={i}
                                 onClick={() => setActiveType(t)}
@@ -53,7 +65,7 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
                 </div>
                 <div className="pizza-block__bottom">
                     <div className="pizza-block__price">от {props.price} ₽</div>
-                    <button onClick={onClickAddButton} className="button button--outline button--add">
+                    <button onClick={onClickAdd} className="button button--outline button--add">
                         <svg
                             width="12"
                             height="12"

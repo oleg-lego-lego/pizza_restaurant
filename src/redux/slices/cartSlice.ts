@@ -1,8 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit'
+import {PizzasType} from "../../assets/pizzas";
 
 export interface initialStateType {
     totalPrice: number,
-    items: any, // fixed
+    items: PizzasType[],
 }
 
 const initialState: initialStateType = {
@@ -16,9 +17,10 @@ const cartSlice = createSlice({
     reducers: {
         addItem(state, action) {
             state.items.push(action.payload)
+            state.totalPrice = state.items.reduce((sum, obj) => obj.price + sum, 0)
         },
         removeItem(state, action) {
-            state.items = state.items.filter((obj: any)=> obj.id !== action.payload) // fixed
+            state.items = state.items.filter(obj => obj.id !== action.payload)
         },
         clearItems(state) {
             state.items = []
