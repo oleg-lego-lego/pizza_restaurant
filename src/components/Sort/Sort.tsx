@@ -20,6 +20,7 @@ export const list = [
 export const Sort = () => {
     const dispatch = useDispatch()
     const sort = useSelector((state: RootState) => state.filter.sort)
+    const sortRef = React.useRef<HTMLHeadingElement>(null)
 
     const [open, setOpen] = useState(false)
 
@@ -28,8 +29,10 @@ export const Sort = () => {
         setOpen(false)
     }
 
+
+
     return (
-        <div className="sort">
+        <div ref={sortRef} className="sort">
             <div className="sort__label">
                 <svg
                     width="10"
