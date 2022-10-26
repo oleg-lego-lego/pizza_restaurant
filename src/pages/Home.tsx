@@ -31,7 +31,7 @@ export const Home = () => {
         dispatch(setCategoryId(id))
     }
 
-    const fetchPizzas = () => {
+    const fetchPizzas = async () => {
         setIsLoading(true)
 
         const sortBy = sort.sortProperty.replace('-', '')
@@ -39,11 +39,16 @@ export const Home = () => {
         const category = categoryId > 0 ? `category=${categoryId}` : ''
         const search = searchValue ? `&search=${searchValue}` : ''
 
-        axios.get(`https://63441c93b9ab4243cadfc069.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
-            .then(res => {
-                setItems(res.data)
-                setIsLoading(false)
-            })
+        try {
+            const res = await axios
+                .get(`https://63441c93b9ab4243cadfc069.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
+            setItems(res.data)
+            setIsLoading(false)
+        } catch (e) {
+            setIsLoading(false)
+            alert('Ощибка при получении пицц')
+            console.log('ERROR', e)
+        }
     }
 
     React.useEffect(() => {

@@ -18,7 +18,7 @@ export const Cart = () => {
         }
     }
 
-    if(!totalPrice) {
+    if (!totalPrice) {
         return <CartEmpty/>
     }
 
