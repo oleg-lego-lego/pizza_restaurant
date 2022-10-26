@@ -12,14 +12,14 @@ type PizzaBlockPropsType = {
     types: number[]
 }
 
-const typeNames = ['тонкое', 'традицтонное']
-
 export const PizzaBlock = (props: PizzaBlockPropsType) => {
     const dispatch = useDispatch()
     const cartItem = useSelector((state: RootState) => state.cart.items.find(obj => obj.id === props.id))
 
     let [activeType, setActiveType] = useState(0)
     let [activeSize, setActiveSize] = useState(0)
+
+    const typeNames = ['тонкое', 'традицтонное']
 
     const addedCount = cartItem ? cartItem.count : 0
 
@@ -30,7 +30,7 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
             price: props.price,
             imageUrl: props.imageUrl,
             types: typeNames[activeType],
-            sizes: activeSize,
+            sizes: props.sizes[activeSize],
         }
         dispatch(addItem(item))
     }

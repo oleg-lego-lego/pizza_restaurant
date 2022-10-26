@@ -1,7 +1,27 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../redux/store";
+import {CartItem} from "./CartItem/CartItem";
+import {clearItems} from "../redux/slices/cartSlice";
+import {CartEmpty} from "../components/CartEmpty/CartEmpty";
 
 export const Cart = () => {
+    const dispatch = useDispatch()
+    const {totalPrice, items} = useSelector((state: RootState) => state.cart)
+
+    const totalCount = items.reduce((sum, item) => sum + item.count, 0)
+
+    const onClickClear = () => {
+        if (window.confirm('Очистить карзину?')) {
+            dispatch(clearItems())
+        }
+    }
+
+    if(!totalPrice) {
+        return <CartEmpty/>
+    }
+
     return (
         <> {
             <div className="container">
@@ -25,7 +45,7 @@ export const Cart = () => {
                             </svg>
                             Корзина
                         </h2>
-                        <div className="cart__clear">
+                        <div onClick={onClickClear} className="cart__clear">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.5 5H4.16667H17.5" stroke="#B6B6B6" strokeWidth="1.2" strokeLinecap="round"
@@ -43,12 +63,15 @@ export const Cart = () => {
                             </svg>
                             <span>Очистить корзину</span></div>
                     </div>
+
                     <div className="content__items">
-                        {/*{items.map((item) => <CartItem key={item.id} {...item}/>)}*/}
+                        {items.map((item) => <CartItem key={item.id} {...item}/>)}
                     </div>
+
                     <div className="cart__bottom">
                         <div className="cart__bottom-details">
-                            <span> Всего пицц: <b> шт.</b> </span><span> Сумма заказа: <b> ₽</b> </span>
+                            <span> Всего пицц: <b>{totalCount} шт.</b> </span>
+                            <span> Сумма заказа: <b>{totalPrice} ₽</b></span>
                         </div>
                         <div className="cart__bottom-buttons">
                             <NavLink to={"/"} className="button button--outline button--add go-back-btn"
