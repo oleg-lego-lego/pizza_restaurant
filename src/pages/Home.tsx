@@ -1,37 +1,37 @@
 import React, {useState} from 'react';
-import axios from "axios";
 import {Categories} from "../components/Categories/Categories";
 import {list, Sort} from "../components/Sort/Sort";
 import {Skeleton} from "../components/PizzaBlock/Skeleton";
 import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
-import {PizzasType} from "../assets/pizzas";
 import {Pagination} from "../components/Pagination/Pagination";
 import {AppContext} from "../components/Context/AppContext";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../redux/store";
+import {AppDispatch, RootState} from "../redux/store";
 import {setCategoryId, setCurrentPage, setFilters} from '../redux/slices/filterSlice'
+import {fetchPizzas} from '../redux/slices/pizzaSlice'
 import qs from 'qs'
 import {useNavigate} from 'react-router-dom'
 
 
 export const Home = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
     const isSearch = React.useRef(false)
     const isMounted = React.useRef(false)
 
     const {categoryId, sort, currentPage} = useSelector((state: RootState) => state.filter)
+    const items = useSelector((state: RootState) => state.pizza.items)
 
     const {searchValue} = React.useContext(AppContext)
 
-    const [items, setItems] = useState<PizzasType[]>([])
+    // const [items, setItems] = useState<PizzasType[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
     const onChangeCategory = (id: number) => {
         dispatch(setCategoryId(id))
     }
 
-    const fetchPizzas = async () => {
+    const getPizzas = async () => {
         setIsLoading(true)
 
         const sortBy = sort.sortProperty.replace('-', '')
@@ -40,9 +40,7 @@ export const Home = () => {
         const search = searchValue ? `&search=${searchValue}` : ''
 
         try {
-            const res = await axios
-                .get(`https://63441c93b9ab4243cadfc069.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
-            setItems(res.data)
+            dispatch(fetchPizzas({sortBy, order, category, search, currentPage}))
         } catch (e) {
             alert('Ощибка при получении пицц')
             console.log('ERROR', e)
@@ -53,7 +51,7 @@ export const Home = () => {
 
     React.useEffect(() => {
         if (!isSearch.current) {
-            fetchPizzas()
+            getPizzas()
         }
         isSearch.current = false
         window.scrollTo(0, 0)
