@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Categories} from "../components/Categories/Categories";
 import {list, Sort} from "../components/Sort/Sort";
 import {Skeleton} from "../components/PizzaBlock/Skeleton";
@@ -20,42 +20,31 @@ export const Home = () => {
     const isMounted = React.useRef(false)
 
     const {categoryId, sort, currentPage} = useSelector((state: RootState) => state.filter)
-    const items = useSelector((state: RootState) => state.pizza.items)
+    const {items, status} = useSelector((state: RootState) => state.pizza)
 
     const {searchValue} = React.useContext(AppContext)
-
-    // const [items, setItems] = useState<PizzasType[]>([])
-    const [isLoading, setIsLoading] = useState(true)
 
     const onChangeCategory = (id: number) => {
         dispatch(setCategoryId(id))
     }
 
     const getPizzas = async () => {
-        setIsLoading(true)
-
         const sortBy = sort.sortProperty.replace('-', '')
         const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
         const category = categoryId > 0 ? `category=${categoryId}` : ''
         const search = searchValue ? `&search=${searchValue}` : ''
 
-        try {
-            dispatch(fetchPizzas({sortBy, order, category, search, currentPage}))
-        } catch (e) {
-            alert('Ощибка при получении пицц')
-            console.log('ERROR', e)
-        } finally {
-            setIsLoading(false)
-        }
+        dispatch(fetchPizzas({sortBy, order, category, search, currentPage}))
     }
 
     React.useEffect(() => {
-        if (!isSearch.current) {
-            getPizzas()
-        }
+        getPizzas()
+
         isSearch.current = false
         window.scrollTo(0, 0)
-    }, [categoryId, sort.sortProperty, searchValue, currentPage])
+    }, [
+        //categoryId, sort.sortProperty, searchValue, currentPage
+    ])
 
     React.useEffect(() => {
         if (window.location.search) {
@@ -109,13 +98,21 @@ export const Home = () => {
                 />
 
                 <Sort/>
-
             </div>
             <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-                {isLoading ? skeletons : pizzas}
-            </div>
 
+            {status === 'error' ? (
+                <div className={"content__error__info"}>
+                    <h2>Произошла ошибка 😕</h2>
+                    <p>
+                       К сожелению, не удалось получить пиццы. Попробуйте повторить попытку позже.
+                    </p>
+                </div>
+            ) : (
+                <div className="content__items">
+                    {status === 'loading' ? skeletons : pizzas}
+                </div>
+            )}
             <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
         </div>
     );
