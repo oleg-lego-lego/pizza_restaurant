@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {PizzasType} from "../../assets/pizzas";
+import {RootState} from "../store";
 
 export interface initialStateType {
     totalPrice: number,
@@ -39,6 +40,9 @@ const cartSlice = createSlice({
         },
     }
 })
+
+export const selectCart = (state: RootState) => state.cart
+export const selectCartItemById = (id: number) => (state: RootState) => state.cart.items.find(obj => obj.id === id)
 
 export const {addItem, removeItem, minusItem, clearItems} = cartSlice.actions
 

@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {PizzasType} from "../../assets/pizzas";
 import axios from "axios";
+import {RootState} from "../store";
 
 export interface initialStateType {
     items: PizzasType[],
@@ -60,7 +61,9 @@ const pizzaSlice = createSlice({
     }
 })
 
-export const {} = pizzaSlice.actions
+export const selectPizzaData = (store: RootState) => store.pizza
+
+export const {setItems} = pizzaSlice.actions
 
 export default pizzaSlice.reducer;
 
