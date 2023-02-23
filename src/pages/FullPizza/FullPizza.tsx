@@ -1,9 +1,21 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
+import axios from "axios";
 
 export const FullPizza = () => {
+    const [pizza, setPizza] = React.useState()
     const { id } = useParams()
 
+    React.useEffect(() => {
+        async function fetchPizza() {
+            try {
+                const { data } = await axios.get('https://63441c93b9ab4243cadfc069.mockapi.io/items' + id)
+                setPizza(data)
+            } catch (e) {
+                alert('ошибка')
+            }
+        }
+    }, [])
 
     return (
         <div className={"container"}>
