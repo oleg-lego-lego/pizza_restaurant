@@ -9,7 +9,7 @@ import {AppDispatch} from "../redux/store";
 import {selectFilter, setCategoryId, setCurrentPage, setFilters} from '../redux/slices/filterSlice'
 import {fetchPizzas, selectPizzaData} from '../redux/slices/pizzaSlice'
 import qs from 'qs'
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 
 export const Home = () => {
@@ -68,16 +68,18 @@ export const Home = () => {
 
     const pizzas = items
         //.filter(val => val.title.toLowerCase().includes(props.searchValue.toLowerCase()))
-        .map((obj, i) => (
-            <PizzaBlock
-                id={obj.id}
-                key={i}
-                title={obj.title}
-                price={obj.price}
-                imageUrl={obj.imageUrl}
-                sizes={obj.sizes}
-                types={obj.types}
-            />
+        .map(obj => (
+            <Link key={obj.id} to={`/pizza/${obj.id}`}>
+                <PizzaBlock
+                    id={obj.id}
+                    title={obj.title}
+                    price={obj.price}
+                    imageUrl={obj.imageUrl}
+                    sizes={obj.sizes}
+                    types={obj.types}
+                />
+            </Link>
+
         ))
 
     const skeletons = [...new Array(6)].map((_, i) => <Skeleton key={i}/>)
@@ -102,7 +104,7 @@ export const Home = () => {
                 <div className={"content__error__info"}>
                     <h2>Произошла ошибка 😕</h2>
                     <p>
-                       К сожелению, не удалось получить пиццы. Попробуйте повторить попытку позже.
+                        К сожелению, не удалось получить пиццы. Попробуйте повторить попытку позже.
                     </p>
                 </div>
             ) : (

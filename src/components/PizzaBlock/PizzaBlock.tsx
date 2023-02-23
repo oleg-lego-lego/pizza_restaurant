@@ -4,7 +4,7 @@ import {addItem, selectCartItemById} from '../../redux/slices/cartSlice'
 
 
 type PizzaBlockPropsType = {
-    id: number
+    id: string
     title: string
     price: number
     imageUrl: string

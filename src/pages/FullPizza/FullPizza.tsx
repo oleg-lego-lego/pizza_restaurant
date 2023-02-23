@@ -1,37 +1,37 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
 import axios from "axios";
+import {PizzasType} from "../../assets/pizzas";
 
 export const FullPizza = () => {
-    const [pizza, setPizza] = React.useState()
-    const { id } = useParams()
+    const [pizza, setPizza] = React.useState<PizzasType>()
+    const {id} = useParams()
 
     React.useEffect(() => {
         async function fetchPizza() {
             try {
-                const { data } = await axios.get('https://63441c93b9ab4243cadfc069.mockapi.io/items' + id)
+                const {data} = await axios.get('https://63441c93b9ab4243cadfc069.mockapi.io/items/' + id)
                 setPizza(data)
+                console.log(data)
             } catch (e) {
                 alert('ошибка')
             }
         }
+
+        fetchPizza()
     }, [])
+
+    if (!pizza) {
+        return (
+            <>'Загрузка...'</>
+        )
+    }
 
     return (
         <div className={"container"}>
-            <h2>{id}</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquid animi aperiam asperiores
-                blanditiis cum deserunt distinctio dolore error excepturi exercitationem fugit id impedit iste iusto
-                libero maxime numquam quis quisquam quod, recusandae rem sequi sunt velit veniam veritatis, vero, vitae!
-                Atque commodi earum fugiat, illum laudantium magni, odit praesentium quaerat quos repudiandae saepe
-                sint, tempora veniam. Animi atque consectetur consequuntur cum dicta dignissimos dolor dolorem dolores
-                dolorum ea eum, eveniet fugit hic illo in inventore ipsam iure labore molestiae nam neque nostrum nulla
-                omnis perferendis praesentium provident, qui quos rem repellat similique tempore totam ut voluptates. A
-                accusamus accusantium, adipisci consequuntur eius et excepturi hic id modi nobis nostrum obcaecati optio
-                perferendis possimus quam quis quo reprehenderit, sequi similique soluta sunt tempora tempore. Debitis
-                deleniti ipsum porro suscipit. Ad ducimus eius laboriosam minima officia ratione saepe tempore vel!
-                Adipisci beatae maiores quos sapiente soluta.</p>
-            <h4>asfsad</h4>
+            <img src={pizza.imageUrl} alt=""/>
+            <h2>{pizza.title}</h2>
+            <h4>{pizza.price}</h4>
         </div>
     );
 };
