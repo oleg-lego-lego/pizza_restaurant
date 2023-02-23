@@ -1,9 +1,13 @@
 import React from 'react';
+import {useParams} from "react-router-dom";
 
 export const FullPizza = () => {
+    const { id } = useParams()
+
+
     return (
-        <div>
-            <h2>qwrwer</h2>
+        <div className={"container"}>
+            <h2>{id}</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquid animi aperiam asperiores
                 blanditiis cum deserunt distinctio dolore error excepturi exercitationem fugit id impedit iste iusto
                 libero maxime numquam quis quisquam quod, recusandae rem sequi sunt velit veniam veritatis, vero, vitae!
