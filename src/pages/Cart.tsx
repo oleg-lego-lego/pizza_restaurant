@@ -5,7 +5,7 @@ import {CartItem} from "./CartItem/CartItem";
 import {clearItems, selectCart} from "../redux/slices/cartSlice";
 import {CartEmpty} from "../components/CartEmpty/CartEmpty";
 
-export const Cart = () => {
+export const Cart: React.FC = () => {
     const dispatch = useDispatch()
     const {totalPrice, items} = useSelector(selectCart)
 

@@ -5,7 +5,7 @@ type CategoriesPropsType = {
     onClickCategory: (activeButton: number) => void
 }
 
-export const Categories = (props: CategoriesPropsType) => {
+export const Categories: React.FC<CategoriesPropsType> = ({categoryId, onClickCategory}) => {
     const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
     return (
@@ -14,8 +14,8 @@ export const Categories = (props: CategoriesPropsType) => {
                 {categories.map((el, i) => (
                     <li
                         key={i}
-                        onClick={() => props.onClickCategory(i)}
-                        className={props.categoryId === i ? "active" : ''}>
+                        onClick={() => onClickCategory(i)}
+                        className={categoryId === i ? "active" : ''}>
                         {el}
                     </li>
                 ))}

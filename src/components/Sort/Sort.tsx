@@ -11,7 +11,7 @@ type PopupClick = MouseEvent & {
     path: Node[]
 }
 
-export const list = [
+export const sortList: SortType[] = [
     {name: 'популярности (desc)', sortProperty: 'rating'},
     {name: 'популярности (asc)', sortProperty: '-rating'},
     {name: 'цене (desc)', sortProperty: 'price'},
@@ -20,10 +20,10 @@ export const list = [
     {name: 'алфавиту (asc)', sortProperty: '-title'}
 ]
 
-export const Sort = () => {
+export const Sort: React.FC = () => {
     const dispatch = useDispatch()
     const sort = useSelector(selectSort)
-    const sortRef = React.useRef<HTMLHeadingElement>(null)
+    const sortRef = React.useRef<HTMLDivElement>(null)
 
     const [open, setOpen] = useState(false)
 
@@ -38,6 +38,9 @@ export const Sort = () => {
             if (sortRef.current && !_event.path.includes(sortRef.current)) {
                 setOpen(false)
             }
+            // if (!_event.path.includes(sortRef.current)) {
+            //     setOpen(false)
+            // }
         }
         document.body.addEventListener('click', handleClickBody)
         return () => document.body.removeEventListener('click', handleClickBody)
@@ -65,7 +68,7 @@ export const Sort = () => {
             {open && (
                 <div className="sort__popup">
                     <ul>
-                        {list.map((obj, i) => (
+                        {sortList.map((obj, i) => (
                             <li
                                 key={i}
                                 onClick={() => onClickListItem(obj)}

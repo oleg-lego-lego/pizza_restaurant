@@ -12,9 +12,9 @@ type PizzaBlockPropsType = {
     types: number[]
 }
 
-export const PizzaBlock = (props: PizzaBlockPropsType) => {
+export const PizzaBlock: React.FC<PizzaBlockPropsType> = ({id, title, price, imageUrl, sizes, types}) => {
     const dispatch = useDispatch()
-    const cartItem = useSelector(selectCartItemById(props.id))
+    const cartItem = useSelector(selectCartItemById(id))
 
     let [activeType, setActiveType] = useState(0)
     let [activeSize, setActiveSize] = useState(0)
@@ -25,12 +25,12 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
 
     const onClickAdd = () => {
         const item = {
-            id: props.id,
-            title: props.title,
-            price: props.price,
-            imageUrl: props.imageUrl,
+            id: id,
+            title: title,
+            price: price,
+            imageUrl: imageUrl,
             types: typeNames[activeType],
-            sizes: props.sizes[activeSize],
+            sizes: sizes[activeSize],
         }
         dispatch(addItem(item))
     }
@@ -40,13 +40,13 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
             <div className="pizza-block">
                 <img
                     className="pizza-block__image"
-                    src={props.imageUrl}
+                    src={imageUrl}
                     alt="Pizza"
                 />
-                <h4 className="pizza-block__title">{props.title}</h4>
+                <h4 className="pizza-block__title">{title}</h4>
                 <div className="pizza-block__selector">
                     <ul>
-                        {props.types.map((t, i) => (
+                        {types.map((t, i) => (
                             <li
                                 key={i}
                                 onClick={() => setActiveType(t)}
@@ -56,7 +56,7 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
                         ))}
                     </ul>
                     <ul>
-                        {props.sizes.map((s, i) => (
+                        {sizes.map((s, i) => (
                             <li
                                 key={i}
                                 onClick={() => setActiveSize(i)}
@@ -67,7 +67,7 @@ export const PizzaBlock = (props: PizzaBlockPropsType) => {
                     </ul>
                 </div>
                 <div className="pizza-block__bottom">
-                    <div className="pizza-block__price">от {props.price} ₽</div>
+                    <div className="pizza-block__price">от {price} ₽</div>
                     <button onClick={onClickAdd} className="button button--outline button--add">
                         <svg
                             width="12"

@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {PizzasType} from "../../assets/pizzas";
 
-export const FullPizza = () => {
+export const FullPizza: React.FC = () => {
     const [pizza, setPizza] = React.useState<PizzasType>()
     const {id} = useParams()
     const navigate = useNavigate()
@@ -13,7 +13,6 @@ export const FullPizza = () => {
             try {
                 const {data} = await axios.get('https://63441c93b9ab4243cadfc069.mockapi.io/items/' + id)
                 setPizza(data)
-                console.log(data)
             } catch (e) {
                 alert('Ошибка при получении пиццы!')
                 navigate('/')

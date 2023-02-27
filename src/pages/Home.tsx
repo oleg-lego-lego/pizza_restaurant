@@ -1,6 +1,6 @@
 import React from 'react';
 import {Categories} from "../components/Categories/Categories";
-import {list, Sort} from "../components/Sort/Sort";
+import {Sort, sortList} from "../components/Sort/Sort";
 import {Skeleton} from "../components/PizzaBlock/Skeleton";
 import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
 import {Pagination} from "../components/Pagination/Pagination";
@@ -12,7 +12,7 @@ import qs from 'qs'
 import {Link, useNavigate} from 'react-router-dom'
 
 
-export const Home = () => {
+export const Home: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
     const isSearch = React.useRef(false)
@@ -46,7 +46,7 @@ export const Home = () => {
     React.useEffect(() => {
         if (window.location.search) {
             const params = qs.parse(window.location.search.substring(1))
-            const sort = list.find(obj => obj.sortProperty === params.sortProperty)
+            const sort = sortList.find(obj => obj.sortProperty === params.sortProperty)
 
             dispatch(setFilters({...params, sort}))
             isSearch.current = true

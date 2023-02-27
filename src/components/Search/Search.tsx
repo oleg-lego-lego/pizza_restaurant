@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {setSearchValue} from "../../redux/slices/filterSlice";
 
 
-export const Search = () => {
+export const Search: React.FC = () => {
     const dispatch = useDispatch()
     const [value, setValue] = React.useState('')
 
